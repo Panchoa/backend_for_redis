@@ -8,7 +8,8 @@
 require "predis/autoload.php";
 \Predis\Autoloader::register();
 
-$redisObj = new \Predis\Client();
+//Connexion à notre Redis "local"
+$redisObj = new \Predis\Client("tcp://redis:6379");
 
 function openRedisConnection($hostname, $port){
     global $redisObj;
