@@ -6,9 +6,15 @@
  * Time: 11:52
  */
 
-require "backend.php";
+require "predis/autoload.php";
+\Predis\Autoloader::register();
 
-setNote("note", $_POST["note"]);
+$redisObj = new \Predis\Client("tcp://redis:6379");
+
+if (isset($_POST["note"])) {
+    $redisObj->rpush("notestest", [ $_POST["note"] ]);
+}
+
 ?>
 <html>
 <body>
@@ -22,7 +28,8 @@ setNote("note", $_POST["note"]);
     <h3>Notes</h3>
     <span>
         <?php
-        echo getNote("note")
+        $notes = $redisObj->lrange("notestest", 0, -1);
+        print_r($notes);
         ?>
     </span>
 </div>
