@@ -5,15 +5,14 @@
  * Date: 16/04/2019
  * Time: 11:52
  */
-
-require "predis/autoload.php";
-\Predis\Autoloader::register();
-
-$redisObj = new \Predis\Client("tcp://redis:6379");
-
-if (isset($_POST["note"])) {
-    $redisObj->rpush("notestest", [ $_POST["note"] ]);
+if (isset($_POST["publier"])){
+    if (isset($_POST["note"])) {
+        setNote("notes", $_POST["notes"]);
+    }
+}elseif (isset($_POST["delete"])){
+    delAllNotes("notes");
 }
+
 
 ?>
 <html>
@@ -21,17 +20,20 @@ if (isset($_POST["note"])) {
 
 <form method="post">
     Note: <input type="text" name="note"><br>
-    <input type="submit">
+    <input type="submit" name="publier" value="Publier">
 </form>
 
 <div>
     <h3>Notes</h3>
     <span>
         <?php
-        $notes = $redisObj->lrange("notestest", 0, -1);
+        $notes = getNote("notes");
         print_r($notes);
         ?>
     </span>
+    <form method="post">
+        <input type="submit" name="delete" value="Supprimer les notes">
+    </form>
 </div>
 </body>
 </html>

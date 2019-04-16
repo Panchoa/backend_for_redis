@@ -21,7 +21,7 @@ function openRedisConnection($hostname, $port){
 function setNote($key, $value){
     try{
         global $redisObj;
-        $redisObj->set($key, $value);
+        $redisObj->rpush($key, $value);
     }catch (Exception $e) {
         echo $e->getMessage();
     }
@@ -31,7 +31,26 @@ function setNote($key, $value){
 function getNote($key){
     try{
         global $redisObj;
-        return $redisObj->get($key);
+        return $redisObj->lrange($key, 0, -1);
+    }catch (Exception $e){
+        echo $e->getMessage();
+    }
+}
+
+//Supprime la dernière valeur de la liste contenant les notes
+function delLastNote($key){
+    try{
+        global $redisObj;
+        $redisObj->lpop($key);
+    }catch (Exception $e){
+        echo $e->getMessage();
+    }
+}
+//Supprime toute la liste contenant les notes
+function delAllNotes($key){
+    try{
+        global $redisObj;
+        $redisObj->del($key);
     }catch (Exception $e){
         echo $e->getMessage();
     }
