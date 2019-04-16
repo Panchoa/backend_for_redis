@@ -22,7 +22,7 @@ setNote("note", $_POST["note"]);
     <h3>Notes</h3>
     <span>
         <?php
-        getNote("note")
+        echo getNote("note")
         ?>
     </span>
 </div>
