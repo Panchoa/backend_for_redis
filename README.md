@@ -17,7 +17,7 @@ Architecture du projet :
 
 ## Usage
 
-Lorsque vous exécutez les containers en local, utilisez curl :
+Lorsque vous exécutez les containers en local avec `docker-compose up`, utilisez curl :
 ```sh
 $ curl -X [METHOD] --data [DATA] http://localhost:8080/notes.php?[QUERY]
 ```
